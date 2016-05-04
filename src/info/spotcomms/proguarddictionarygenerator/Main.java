@@ -77,7 +77,7 @@ public class Main {
     char[] out = new char[65536];
     for (int x = 0; x < out.length; x++) {
       int uchar = Integer.parseInt(("\\u" + Integer.toHexString(secureRandom.nextInt(0x10FFFF))).substring(2), 16);
-      if(Character.isDefined(uchar)) {
+      if(Character.isJavaIdentifierStart(uchar)) {
         out[x] = (char) uchar;
       } else {
         x--;
