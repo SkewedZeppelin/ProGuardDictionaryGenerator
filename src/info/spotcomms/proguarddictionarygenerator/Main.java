@@ -17,7 +17,7 @@ public class Main {
   private static String[] availableCharacters = null;
 
   public static void main(String[] args) {
-    if(args[0].equals("full")) {
+    if(args.length > 0 && args[0].equals("full")) {
       unicodePlaneEnd = 0x10FFFF;
       }
     initializeRandoms();
