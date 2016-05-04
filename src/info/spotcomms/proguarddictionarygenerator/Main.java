@@ -13,9 +13,13 @@ public class Main {
 
   private static SeedGenerator seedGenerator = null;
   private static AESCounterRNG secureRandom = null;
+  private static int unicodePlaneEnd = 0xFFFF;
   private static String[] availableCharacters = null;
 
   public static void main(String[] args) {
+    if(args[0].equals("full")) {
+      unicodePlaneEnd = 0x10FFFF;
+      }
     initializeRandoms();
     availableCharacters = generateRandomUnicodeCharacterArray();
     System.out.println("Example String: " + generateRandomUnicodeString(512));
@@ -62,7 +66,7 @@ public class Main {
     System.out.println("Starting generation of " + name);
     for (int x = 0; x < amount; x++) {
       writer.println(generateRandomUnicodeString(lineLength));
-      if(x % 250 == 0) {
+      if(x % 256 == 0) {
         updateSeed();
         availableCharacters = generateRandomUnicodeCharacterArray();
         System.out.println("\tCompletion: " + x + "/" + amount);
@@ -75,7 +79,7 @@ public class Main {
   private static String[] generateRandomUnicodeCharacterArray() {
     String[] out = new String[65536];
     for (int x = 0; x < out.length; x++) {
-      int uchar = secureRandom.nextInt(0x10FFFF);
+      int uchar = secureRandom.nextInt(unicodePlaneEnd);
       char[] charPair = Character.toChars(uchar);
       if(Character.isJavaIdentifierStart(uchar)) {
         out[x] = new String(charPair);
