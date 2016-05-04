@@ -13,15 +13,15 @@ public class Main {
 
   private static SeedGenerator seedGenerator = null;
   private static AESCounterRNG secureRandom = null;
-  private static char[] VALID_CHARACTERS = null;
+  private static String[] availableCharacters = null;
 
   public static void main(String[] args) {
     initializeRandoms();
-    VALID_CHARACTERS = generateRandomUnicodeArray();
-    System.out.println("Example String: " + generateRandomUnicodeString(256));
-    createDatabase("ObfuscationDictionary.txt", 2500, 20000);
-    createDatabase("ClassObfuscationDictionary.txt", 5000, 250);
-    createDatabase("PackageObfuscationDictionary.txt", 5000, 250);
+    availableCharacters = generateRandomUnicodeCharacterArray();
+    System.out.println("Example String: " + generateRandomUnicodeString(512));
+    createDatabase("ObfuscationDictionary.txt", 2048, 6144);
+    createDatabase("ClassObfuscationDictionary.txt", 4096, 240);
+    createDatabase("PackageObfuscationDictionary.txt", 4096, 240);
   }
 
   private static void initializeRandoms() {
@@ -52,33 +52,33 @@ public class Main {
   }
 
   private static void createDatabase(String name, int amount, int lineLength) {
+    PrintWriter writer = null;
     try {
-      initializeRandoms();
-      System.out.println("Starting generation of " + name);
-      PrintWriter writer = new PrintWriter(new File(name));
-      for (int x = 0; x < amount; x++) {
-        writer.println(generateRandomUnicodeString(lineLength));
-        if (x % 25 == 0) {
-          updateSeed();
-          VALID_CHARACTERS = generateRandomUnicodeArray();
-        }
-        if(x % 250 == 0) {
-          System.out.println("\tCompletion: " + x + "/" + amount);
-        }
-      }
-      writer.close();
-      System.out.println("Generation of " + name + " completed");
+      writer = new PrintWriter(new File(name));
     } catch(Exception e) {
       e.printStackTrace();
     }
+    initializeRandoms();
+    System.out.println("Starting generation of " + name);
+    for (int x = 0; x < amount; x++) {
+      writer.println(generateRandomUnicodeString(lineLength));
+      if(x % 250 == 0) {
+        updateSeed();
+        availableCharacters = generateRandomUnicodeCharacterArray();
+        System.out.println("\tCompletion: " + x + "/" + amount);
+      }
+    }
+    writer.close();
+    System.out.println("Generation of " + name + " completed");
   }
 
-  private static char[] generateRandomUnicodeArray() {
-    char[] out = new char[65536];
+  private static String[] generateRandomUnicodeCharacterArray() {
+    String[] out = new String[65536];
     for (int x = 0; x < out.length; x++) {
-      int uchar = Integer.parseInt(("\\u" + Integer.toHexString(secureRandom.nextInt(0x10FFFF))).substring(2), 16);
+      int uchar = secureRandom.nextInt(0x10FFFF);
+      char[] charPair = Character.toChars(uchar);
       if(Character.isJavaIdentifierStart(uchar)) {
-        out[x] = (char) uchar;
+        out[x] = new String(charPair);
       } else {
         x--;
       }
@@ -87,11 +87,11 @@ public class Main {
   }
 
   public static String generateRandomUnicodeString(int numChars) {
-    char[] buff = new char[numChars];
+    String out = "";
     for (int i = 0; i < numChars; ++i) {
-      buff[i] = VALID_CHARACTERS[secureRandom.nextInt(VALID_CHARACTERS.length)];
+      out += availableCharacters[secureRandom.nextInt(availableCharacters.length)];
     }
-    return new String(buff);
+    return out;
   }
 
 }
