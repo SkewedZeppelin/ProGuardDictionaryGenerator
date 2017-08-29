@@ -90,12 +90,12 @@ public class Main {
         return out;
     }
 
-    public static String generateRandomUnicodeString(int numChars) {
-        String out = "";
+    private static String generateRandomUnicodeString(int numChars) {
+        StringBuilder out = new StringBuilder();
         for (int i = 0; i < numChars; ++i) {
-            out += availableCharacters[secureRandom.nextInt(availableCharacters.length)];
+            out.append(availableCharacters[secureRandom.nextInt(availableCharacters.length)]);
         }
-        return out;
+        return out.toString();
     }
 
 }
