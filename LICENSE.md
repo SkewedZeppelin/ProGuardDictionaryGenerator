@@ -1,1 +1,1 @@
-Copyright (c) 2016 Spot Communications, Inc.
+Copyright (c) 2016 Divested Computing, Inc.
