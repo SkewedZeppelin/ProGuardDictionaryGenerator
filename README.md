@@ -4,4 +4,4 @@
 
 * Pass the "full" option to use characters from supplementary planes
 
-* Donate: BTC: bc1qkjtp2k7cc4kuv8k9wjdlxkeuqczenrpv5mwasl
+* Donate: https://divested.dev/donate
