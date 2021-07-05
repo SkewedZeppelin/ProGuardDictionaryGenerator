@@ -5,3 +5,5 @@ bin
 ObfuscationDictionary.txt
 ClassObfuscationDictionary.txt
 PackageObfuscationDictionary.txt
+.gradle
+build
