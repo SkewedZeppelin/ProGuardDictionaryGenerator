@@ -4,4 +4,6 @@
 
 * Pass the "full" option to use characters from supplementary planes
 
+* Prebuilts via CI: https://gitlab.com/IratePorcupine/proguarddictionarygenerator/-/jobs/artifacts/master/browse?job=build
+
 * Donate: https://divested.dev/donate
